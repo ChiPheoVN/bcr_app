@@ -1,0 +1,9 @@
+.customer_hint {
+    position: absolute;
+    z-index: 100;
+    width: 75%;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
