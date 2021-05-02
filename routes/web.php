@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', 'AuthController@viewLogin')->name('login');
 Route::post('/login', 'AuthController@doLogin')->name('do-login');
+Route::post('/register', 'AuthController@doRegister')->name('do-register');
 
-Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {    
+Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     Route::get('/', function(){
         return redirect()->route('dashboard');
     });
@@ -25,7 +26,12 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
         return response()->json([
             'csrf_token' => csrf_token()
         ]);
+    });        
+    // view list user with only admin user
+    Route::group(['prefix' => '/', 'middleware' => 'admin'], function(){
+        Route::resource('user', 'UserController');
     });
+
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('profile','AuthController@viewProfile')->name('view-profile');
     Route::post('profile','AuthController@updateProfile')->name('update-profile');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
+use App\User;
+use Hash;
 
 class AuthController extends Controller
 {
@@ -21,6 +23,30 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
+    public function doRegister(Request $request){
+        $userName = $request->input('name');
+        $password = $request->input('password');
+        $email    = $request->input('email');
+        $passwordConfirm = $request->input('passwordConfirm');
+        
+        // check email
+        $existEmail = User::where('email', $email)->first();
+        $existUserName = User::where('name', $userName)->first();
+        if(!$existEmail && !$existUserName){
+            if($password == $passwordConfirm){
+                $newUser = new User;
+
+                $newUser->name = $userName;
+                $newUser->email = $email;
+                $newUser->password = Hash::make($password);
+                
+                $newUser->save();
+            }
+        }
+
+        return view('auth.login', []);
+    }
+
     public function doLogout(){
         Auth::logout();
 
@@ -32,11 +58,6 @@ class AuthController extends Controller
     }
 
     public function updateProfile(Request $request){
-        $totalMoney = $request->input('total_money');
-
-        Auth::user()->total_money = $totalMoney;
-        Auth::user()->save();
-        
-        return redirect()->route('view-profile');
+        return redirect()->route('user.index');
     }
 }

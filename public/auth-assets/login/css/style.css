@@ -231,8 +231,7 @@ button:hover {
     margin-top: 16px;
 }
 p.account, p.account a {
-    text-align: center;
-    padding-top: 20px;
+    text-align: center;    
     padding-bottom: 0px;
     font-size: 16px;
     color: #333;
@@ -453,3 +452,8 @@ p.copy-footer-29 a:hover {
 
 /*-- //responsive design --*/
 /*-- //form styling --*/
+
+/*-- // custom styling --*/
+.hidden{
+    display: none !important;
+}

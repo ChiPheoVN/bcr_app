@@ -3,7 +3,7 @@
 @section('main_content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
+        <div class="col-8">
             <div class="card card_border py-2 mb-4">
                 <div class="card-body">
                     <table class="table table-bordered text-center table-card-input">
@@ -36,10 +36,40 @@
                 </div>
             </div>
         </div>
+        <div class="col-4">
+            <div class="card card_border py-2 mb-4">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <table class="table table-bordered text-center table-guess d-none">
+                            <tbody>
+                                <tr>
+                                    <td class="td-winner-color" style="background: blue;color: #fff;"></td>
+                                    <td class="td-winner-percentage"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col">
-            <div class="card card_border py-2 mb-4">
+            <div class="card card_border mb-4">
+                <div class="card-header">Score board</div>
+                <div class="card-body">
+                    <table class="table table-bordered text-center table-score-board">
+                        <tbody>                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card card_border mb-4">
+                <div class="card-header">Counting card</div>
                 <div class="card-body">
                     <table class="table table-bordered text-center table-game-result">
                         <thead>
@@ -80,6 +110,6 @@
 </div>
 @endsection
 
-b:@section('script')
-    <script src="{{ asset('') }}assets/games/bacarat/js/script.js"></script>
+@section('script')
+    <script src="{{ asset('') }}assets/games/bacarat/js/script.min.js"></script>
 @endsection

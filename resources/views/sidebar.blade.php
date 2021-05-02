@@ -1,12 +1,11 @@
 <div class="sidebar-menu sticky-sidebar-menu">
-
     <!-- logo start -->
     <div class="logo">
       <h1><a href="{{ route('dashboard') }}">Admin</a></h1>
     </div>
 
     <div class="logo-icon text-center">
-      <a href="{{ route('dashboard') }}" title="logo"><img src="{{ asset('') }}assets/images/logo.png" alt="logo-icon"> </a>
+      <a href="{{ route('dashboard') }}" title="logo"><img src="{{ asset('') }}assets/images/logo.png" alt="logo-icon"></a>
     </div>
     <!-- //logo end -->
 
@@ -15,6 +14,9 @@
       <!-- sidebar nav start -->
       <ul class="nav nav-pills nav-stacked custom-nav">
         <li class="active"><a href="{{ route('dashboard') }}"><i class="fa fa-tachometer"></i><span> Trang chủ</span></a></li>
+        @if (Auth::user()->type == 'admin')
+            <li><a href="{{ route('user.index') }}"><i class="fa fa-users"></i><span> User</span></a></li>
+        @endif
         <li><a href="{{ route('new-bacarat-game') }}"><i class="fa fa-gamepad"></i><span> Bacarat game</span></a>
         <li class="menu-list d-none">
           <a href="#"><i class="fa fa-cogs"></i>
