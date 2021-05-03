@@ -27,20 +27,20 @@ var winRate = [
 ];
 var winnerLog = [];
 var cardArr = [
-    {number : 0, point : 0, value : 0},
-    {number : 1, point : 1, value : -1},
-    {number : 2, point : 2, value : 1},
-    {number : 3, point : 3, value : 1},
-    {number : 4, point : 4, value : 1},
-    {number : 5, point : 5, value : 1},
-    {number : 6, point : 6, value : 1},
-    {number : 7, point : 7, value : 0},
-    {number : 8, point : 8, value : 0},
-    {number : 9, point : 9, value : 0},
-    {number : 10, point : 0, value : -1},
-    {number : 11, point : 0, value : -1},
-    {number : 12, point : 0, value : -1},
-    {number : 13, point : 0, value : -1},
+    {number : 0, point : 0, value : 0, name : null},
+    {number : 1, point : 1, value : -1, name : 'A'},
+    {number : 2, point : 2, value : 1, name : 2},
+    {number : 3, point : 3, value : 1, name : 3},
+    {number : 4, point : 4, value : 1, name : 4},
+    {number : 5, point : 5, value : 1, name : 5},
+    {number : 6, point : 6, value : 1, name : 6},
+    {number : 7, point : 7, value : 0, name : 7},
+    {number : 8, point : 8, value : 0, name : 8},
+    {number : 9, point : 9, value : 0, name : 9},
+    {number : 10, point : 0, value : -1, name : 10},
+    {number : 11, point : 0, value : -1, name : 'J'},
+    {number : 12, point : 0, value : -1, name : 'Q'},
+    {number : 13, point : 0, value : -1, name : 'K'},
 ];
 var setCardNumber = 8;
 var totalValue = 0;
@@ -96,7 +96,7 @@ var bacaratInit = {
             bacaratHandle.setTemplateResultCardGroup(pObject, bObject, bv, pv);
 
             // set score board
-            bacaratHandle.setScoreBoardTable(pv, bv);
+            bacaratHandle.setScoreBoardTable(winnerLog);
 
             // check condition to calc rate
             if(winnerLog.length >= 7){
@@ -160,7 +160,7 @@ var bacaratHandle = {
             bacaratHandle.setTemplateResultCardGroup(cardInputPlayer, cardInputBanker, bv, pv);
 
             // set score board
-            bacaratHandle.setScoreBoardTable(pv, bv);
+            bacaratHandle.setScoreBoardTable(winnerLog);
 
             // check condition to calc rate
             if(winnerLog.length >= 7){
@@ -168,12 +168,52 @@ var bacaratHandle = {
                 let rateObject = bacaratHandle.calcWinnerRate(winnerLog);
                 bacaratHandle.setGuessTable(rateObject);
             }
-        }).on('click','.btn-reset-game', function(){
+        }).on('click','.btn-reset-result', function(){
             winnerLog = [];
             $('table.table-game-result tbody tr:not(.tr-template-game-result)').remove();
             bacaratHandle.setGuessTable();
             bacaratInit.initTableScoreBoard();
             bacaratHandle.resetInputCardGroup();
+
+            // focus to first input
+            $('input.txt-card-input[data-card-input-index="1"]').focus();
+        }).on('click','.btn-remove-previous-result', function(){
+            winnerLog.pop();// remove last log result
+
+            // set score board
+            bacaratHandle.setScoreBoardTable(winnerLog);
+
+            // check condition to calc rate
+            if(winnerLog.length >= 7){
+                // calc guess winner
+                let rateObject = bacaratHandle.calcWinnerRate(winnerLog);
+                bacaratHandle.setGuessTable(rateObject);
+            }else{
+                bacaratHandle.setGuessTable(null);
+            }
+
+            // remove last result tr
+            $('table.table-game-result tbody tr:last-child').remove();
+
+            // focus to first input
+            $('input.txt-card-input[data-card-input-index="1"]').focus();
+        }).on('hidden.bs.collapse', '#collapseVirtualKeyboard',function () {// turn off virtual key board
+            bacaratHandle.virtualKeyboardMode(false);
+        }).on('shown.bs.collapse', '#collapseVirtualKeyboard',function () {// turn on virtual key board
+            bacaratHandle.virtualKeyboardMode(true);
+        }).on('click','button.btn-virtual-card', function(){
+            let text = $(this).text();
+            let txtFocus = $('input.txt-card-input-focus');
+            let curCardInputIndex = $(txtFocus).data('card-input-index');
+            $(txtFocus).val(text);
+            // focus to next input
+            if(parseInt(curCardInputIndex) < 6){
+                $('input.txt-card-input[data-card-input-index="' + (parseInt(curCardInputIndex) + 1) +'"]').focus();
+                console.log($('input.txt-card-input[data-card-input-index="' + (parseInt(curCardInputIndex) + 1) +'"]'));
+            }
+        }).on('focus','input.txt-card-input',function(){            
+            $('input.txt-card-input').removeClass('txt-card-input-focus');
+            $(this).addClass('txt-card-input-focus');
         });
     },
     convertCardToPoint : (_card) => {
@@ -253,7 +293,7 @@ var bacaratHandle = {
     setTemplateResultCardGroup : (_cardInputPlayer, _cardInputBanker, _bv, _pv) => {
         // clone tr-template-game-result
         let trTemplateGameResult = $('tr.tr-template-game-result.d-none').clone();
-        trTemplateGameResult.removeClass('d-none').removeClass('tr-template-game-result');
+        trTemplateGameResult.removeClass('d-none').removeClass('tr-template-game-result').addClass('tr-result');
 
         let win = (_pv > _bv) ? 'Player' : ((_pv < _bv) ? 'Banker' : 'Tie');
 
@@ -285,9 +325,11 @@ var bacaratHandle = {
             'pv'     : _pv
         };
         winnerLog.push(winnerObj);
+        console.log(winnerLog);
     }
-    ,setScoreBoardTable : (_pv, _bv) => {
-        winnerLog.map((_e, _i) => {
+    ,setScoreBoardTable : (_winnerLog) => {
+        bacaratInit.initTableScoreBoard();
+        _winnerLog.map((_e, _i) => {
             //table-score-board
             let winnerColor = null;
             if(_e.winner == 'P') winnerColor = 'blue';
@@ -346,6 +388,28 @@ var bacaratHandle = {
             winner : guessWinner,
             rate   : rateObject.rate
         };
+    },
+    virtualKeyboardMode : (_enable = true) => {
+        // swicth to virtual keyboard mode
+        let txtCardInputPrefix = 'txt-card-input-';
+        if(_enable){
+            $('table.table-card-input input.' + txtCardInputPrefix + 'p1').attr('readonly',true);
+            $('table.table-card-input input.' + txtCardInputPrefix + 'p2').attr('readonly',true);
+            $('table.table-card-input input.' + txtCardInputPrefix + 'p3').attr('readonly',true);
+            $('table.table-card-input input.' + txtCardInputPrefix + 'b1').attr('readonly',true);
+            $('table.table-card-input input.' + txtCardInputPrefix + 'b2').attr('readonly',true);
+            $('table.table-card-input input.' + txtCardInputPrefix + 'b3').attr('readonly',true);
+        }else{
+            $('table.table-card-input input.' + txtCardInputPrefix + 'p1').removeAttr('readonly');
+            $('table.table-card-input input.' + txtCardInputPrefix + 'p2').removeAttr('readonly');
+            $('table.table-card-input input.' + txtCardInputPrefix + 'p3').removeAttr('readonly');
+            $('table.table-card-input input.' + txtCardInputPrefix + 'b1').removeAttr('readonly');
+            $('table.table-card-input input.' + txtCardInputPrefix + 'b2').removeAttr('readonly');
+            $('table.table-card-input input.' + txtCardInputPrefix + 'b3').removeAttr('readonly');
+        }
+
+        // focus to first input
+        $('input.txt-card-input[data-card-input-index="1"]').focus();
     }
 }
 

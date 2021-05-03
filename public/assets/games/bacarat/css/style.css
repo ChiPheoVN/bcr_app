@@ -1,0 +1,6 @@
+.virtual-keyboard-container .w-20{
+    width: 20% !important;
+}
+.virtual-keyboard-container button{
+    border-radius: unset !important;
+}
