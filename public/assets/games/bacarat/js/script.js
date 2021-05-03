@@ -126,7 +126,7 @@ var bacaratHandle = {
             };
 
             cardInputPlayer.p1 = cardInputPlayer.p1 == '' ? null : cardInputPlayer.p1;
-            cardInputPlayer.p3 = cardInputPlayer.p2 == '' ? null : cardInputPlayer.p2;
+            cardInputPlayer.p2 = cardInputPlayer.p2 == '' ? null : cardInputPlayer.p2;
             cardInputPlayer.p3 = cardInputPlayer.p3 == '' ? null : cardInputPlayer.p3;
 
             cardInputBanker.b1 = cardInputBanker.b1 == '' ? null : cardInputBanker.b1;
@@ -168,6 +168,9 @@ var bacaratHandle = {
                 let rateObject = bacaratHandle.calcWinnerRate(winnerLog);
                 bacaratHandle.setGuessTable(rateObject);
             }
+
+            // focus to first input
+            $('input.txt-card-input[data-card-input-index="1"]').focus();
         }).on('click','.btn-reset-result', function(){
             winnerLog = [];
             $('table.table-game-result tbody tr:not(.tr-template-game-result)').remove();
@@ -208,8 +211,7 @@ var bacaratHandle = {
             $(txtFocus).val(text);
             // focus to next input
             if(parseInt(curCardInputIndex) < 6){
-                $('input.txt-card-input[data-card-input-index="' + (parseInt(curCardInputIndex) + 1) +'"]').focus();
-                console.log($('input.txt-card-input[data-card-input-index="' + (parseInt(curCardInputIndex) + 1) +'"]'));
+                $('input.txt-card-input[data-card-input-index="' + (parseInt(curCardInputIndex) + 1) +'"]').focus();                
             }
         }).on('focus','input.txt-card-input',function(){            
             $('input.txt-card-input').removeClass('txt-card-input-focus');
