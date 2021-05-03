@@ -169,10 +169,11 @@ var bacaratHandle = {
                 bacaratHandle.setGuessTable(rateObject);
             }
         }).on('click','.btn-reset-game', function(){
-            winnerLog = null;
-            $('table.table-game-result tbody tr').remove();
+            winnerLog = [];
+            $('table.table-game-result tbody tr:not(.tr-template-game-result)').remove();
             bacaratHandle.setGuessTable();
             bacaratInit.initTableScoreBoard();
+            bacaratHandle.resetInputCardGroup();
         });
     },
     convertCardToPoint : (_card) => {
@@ -252,7 +253,7 @@ var bacaratHandle = {
     setTemplateResultCardGroup : (_cardInputPlayer, _cardInputBanker, _bv, _pv) => {
         // clone tr-template-game-result
         let trTemplateGameResult = $('tr.tr-template-game-result.d-none').clone();
-        trTemplateGameResult.removeClass('d-none');
+        trTemplateGameResult.removeClass('d-none').removeClass('tr-template-game-result');
 
         let win = (_pv > _bv) ? 'Player' : ((_pv < _bv) ? 'Banker' : 'Tie');
 

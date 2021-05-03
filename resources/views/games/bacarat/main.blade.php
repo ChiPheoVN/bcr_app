@@ -33,7 +33,7 @@
                         </tbody>
                     </table>
                     <button type="button" class="btn btn-primary btn-style btn-add-game-result mt-4">Add game result</button>
-                    <button type="button" class="btn btn-primary btn-style btn-reset-game mt-4">Reset game</button>
+                    <button type="button" class="btn btn-danger pull-right btn-style btn-reset-game mt-4">Reset game</button>
                 </div>
             </div>
         </div>
