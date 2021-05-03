@@ -50,6 +50,7 @@ var bacaratInit = {
         cardArr = cardArr.map(_c => {_c.remain = setCardNumber * 4; return _c;})
     },
     initTableScoreBoard : () => {
+        $('table.table-score-board tbody tr').remove();
         let rows = 6;
         let cols = 13;
         for (let row = 0; row < rows; row ++) {
@@ -167,6 +168,11 @@ var bacaratHandle = {
                 let rateObject = bacaratHandle.calcWinnerRate(winnerLog);
                 bacaratHandle.setGuessTable(rateObject);
             }
+        }).on('click','.btn-reset-game', function(){
+            winnerLog = null;
+            $('table.table-game-result tbody tr').remove();
+            bacaratHandle.setGuessTable();
+            bacaratInit.initTableScoreBoard();
         });
     },
     convertCardToPoint : (_card) => {
