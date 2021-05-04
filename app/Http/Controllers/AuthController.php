@@ -18,7 +18,7 @@ class AuthController extends Controller
         $userName = $request->input('name');
         $password = $request->input('password');
         
-        if(Auth::attempt(['name' => $userName, 'password' => $password]))
+        if(Auth::attempt(['name' => $userName, 'password' => $password, 'status' => 'active']))
             return redirect()->route('dashboard');
         return redirect()->route('login');
     }

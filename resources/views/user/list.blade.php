@@ -10,7 +10,8 @@
             <th>Tên</th>
             <th>Email</th>
             <th>Type</th>
-            <th>Tùy chọn</th>
+            <th>Status</th>
+            <th class="text-center">Tùy chọn</th>
         </tr>
     </thead>
     <tbody>
@@ -19,9 +20,21 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->type }}</td>
+                <td>{{ $user->status }}</td>
                 <td>
-                    <a href="{{ route('user.edit', $user) }}" class="btn btn-info btn-sm"><i class="fa fa-pencil"></i> Sửa</a>
-                    <a href="{{ route('user.destroy', $user) }}" class="btn btn-danger btn-sm btn_delete_customer" data-toggle="modal" data-target="#modalDeleteCustomerConfirm" data-modal-body-text="Xác nhận xóa người dùng {{ $user->name }}"><i class="fa fa-trash"></i> Xóa</a>
+                    <div class="container-fluid">
+                        <a href="{{ route('user.edit', $user) }}" class="btn btn-info btn-sm pull-left mr-1"><i class="fa fa-pencil"></i> Sửa</a>
+                        <a href="{{ route('user.destroy', $user) }}" class="btn btn-danger btn-sm pull-left mr-1 btn_delete_user" data-toggle="modal" data-target="#modalDeleteUserConfirm" data-modal-body-text="Xác nhận xóa người dùng {{ $user->name }}"><i class="fa fa-trash"></i> Xóa</a>
+                        <div class="dropdown pull-left">
+                            <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Other options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item">Update status</a>
+                                <a class="dropdown-item">Update type</a>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         @endforeach
@@ -40,7 +53,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
-        <div class="modal-body">                
+        <div class="modal-body">
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
@@ -50,4 +63,8 @@
     </div>
 </form>
 </div>
+@endsection
+
+@section('script')
+
 @endsection

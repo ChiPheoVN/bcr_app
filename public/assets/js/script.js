@@ -1,6 +1,18 @@
+var init = {
+    tooltip : () => {
+        $('[data-toggle="tooltip"]').tooltip()
+    }
+}
+var util = {
+    getCsrfToken: function(_callback) {
+        $.get('csrf-token').done(function(data) {
+            _callback(data.csrf_token);
+        });
+    }
+}
 var handle = {
-    customer: function() {
-        $(document).on('click', 'a.btn_delete_customer', function() {
+    user: function() {
+        $(document).on('click', 'a.btn_delete_user', function() {
             let _modalSelector = $(this).data('target');
             let _modal = $(_modalSelector);
             handle.getCsrfToken((_token) => {
@@ -77,7 +89,10 @@ var handle = {
 }
 
 $(function() {
-    handle.customer();
+    // init code 
+    init.tooltip();
+
+    handle.user();
     handle.loanAgreement();
     handle.setFormatNumber(null, function(_curSelector, _number, _currency) {
         $(_curSelector).text(_currency);

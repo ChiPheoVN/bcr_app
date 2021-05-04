@@ -1,5 +1,5 @@
 var bacaratConfig = {
-    removeTieResultInProcedure : false
+    removeTieResultInProcedure : true
 }
 var allowProcedures = [
     'procedure1',
