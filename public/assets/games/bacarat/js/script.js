@@ -12,18 +12,20 @@ var allowProcedures = [
     'procedure8',
 ];
 var winRate = [
-    {guess: 4, total: 5, rate : 72},
-    {guess: 3, total: 5, rate : 61},
-    {guess: 5, total: 6, rate : 76},
-    {guess: 4, total: 6, rate : 65},
-    {guess: 3, total: 6, rate : 55},
-    {guess: 6, total: 7, rate : 81},
-    {guess: 5, total: 7, rate : 70},
-    {guess: 4, total: 7, rate : 57},
-    {guess: 7, total: 8, rate : 79},
-    {guess: 6, total: 8, rate : 73},
-    {guess: 5, total: 8, rate : 62.5},
-    {guess: 4, total: 8, rate : 55},
+    {guess: 2, total: 4, rate : {from : 53, to : 57}},
+    {guess: 3, total: 4, rate : {from : 61, to : 65}},
+    {guess: 4, total: 5, rate : {from : 70, to : 72}},
+    {guess: 3, total: 5, rate : {from : 59, to : 63}},
+    {guess: 5, total: 6, rate : {from : 74, to : 76}},
+    {guess: 4, total: 6, rate : {from : 63, to : 67}},
+    {guess: 3, total: 6, rate : {from : 53, to : 57}},
+    {guess: 6, total: 7, rate : {from : 72, to : 74}},
+    {guess: 5, total: 7, rate : {from : 68, to : 72}},
+    {guess: 4, total: 7, rate : {from : 55, to : 59}},
+    {guess: 7, total: 8, rate : {from : 73, to : 75}},
+    {guess: 6, total: 8, rate : {from : 71, to : 73}},
+    {guess: 5, total: 8, rate : {from : 60.5, to : 64.5}},
+    {guess: 4, total: 8, rate : {from : 53, to : 57}},
 ];
 var winnerLog = [];
 var cardArr = [
@@ -388,7 +390,7 @@ var bacaratHandle = {
 
         return {
             winner : guessWinner,
-            rate   : rateObject.rate
+            rate   : (Math.random() * (rateObject.rate.to - rateObject.rate.from + 1) + rateObject.rate.from).toFixed(2)
         };
     },
     virtualKeyboardMode : (_enable = true) => {
