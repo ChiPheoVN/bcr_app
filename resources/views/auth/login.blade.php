@@ -30,7 +30,7 @@ Author URL: http://w3layouts.com
                         <h2>Login</h2>
                         <form action="{{ route('do-login') }}" method="post" data-register-url="{{ route('do-register') }}" data-login-url="{{ route('do-login') }}" class="form-login form-register">
                             @csrf
-                            <input login-state register-state type="text" class="text" name="name" placeholder="User Name" required="" autofocus value="">
+                            <input login-state register-state type="text" class="text" name="user_name" placeholder="User name / Email" required="" autofocus value="">
                             <input register-state type="text" class="text hidden" name="email" placeholder="User Email" required="" autofocus value="" disabled>
                             <input login-state register-state type="password" class="password" name="password" placeholder="User Password" required="" autofocus value="">
                             <input register-state type="password" class="password hidden" name="passwordConfirm" placeholder="User Confirm Password" required autofocus value="" disabled>

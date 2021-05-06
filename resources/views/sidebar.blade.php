@@ -17,7 +17,9 @@
         @if (Auth::user()->type == 'admin')
             <li><a href="{{ route('user.index') }}"><i class="fa fa-users"></i><span> User</span></a></li>
         @endif
-        <li><a href="{{ route('new-bacarat-game') }}"><i class="fa fa-gamepad"></i><span> Bacarat game</span></a>
+        @if (Auth::user()->type == 'admin' || (Auth::user()->type == 'user' && !Auth::user()->is_expired))
+            <li><a href="{{ route('new-bacarat-game') }}"><i class="fa fa-gamepad"></i><span> Bacarat game</span></a>
+        @endif
         <li class="menu-list d-none">
           <a href="#"><i class="fa fa-cogs"></i>
             <span>Elements <i class="lnr lnr-chevron-right"></i></span></a>

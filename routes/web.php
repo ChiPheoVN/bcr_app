@@ -30,6 +30,7 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     // view list user with only admin user
     Route::group(['prefix' => '/', 'middleware' => 'admin'], function(){
         Route::resource('user', 'UserController');
+        Route::delete('delete-multiple-users','UserController@deleteMultipleUsers')->name('delete-multiple-users');
     });
 
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');

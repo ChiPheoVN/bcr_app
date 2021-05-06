@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\BacaratGame;
 use Illuminate\Http\Request;
 
+use Auth;
+
 class BacaratGameController extends Controller
 {
 
     public function newGame(){
-        return view('games.bacarat.main', []);
+        if(Auth::user()->type == 'admin' || (Auth::user()->type == 'user' && !Auth::user()->is_expired))
+            return view('games.bacarat.main', []);
     }
 
     /**

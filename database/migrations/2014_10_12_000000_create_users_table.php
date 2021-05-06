@@ -18,10 +18,11 @@ class CreateUsersTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->id();
-            $table->string('name');
+            $table->string('user_name');
+            $table->string('full_name')->nullable();
             $table->string('email')->unique();
             $table->string('type')->default('user');
-            $table->string('status')->default('locked');            
+            $table->string('status')->default('lock');            
             $table->string('password');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();

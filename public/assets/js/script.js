@@ -21,14 +21,47 @@ var handle = {
             // set form action
             _modal.find('form').attr('action', $(this).attr('href'));
             _modal.find('div.modal-body').text($(this).data('modal-body-text'));
+        }).on('click','input.chk_select_all_user', function(){
+            let checked = $(this).prop('checked');
+            $('input.chk_select_user').map((_i,_e) => {
+                $(_e).prop('checked', checked);                
+            });
+        }).on('click','input.chk_select_user', function(){            
+            // set check all check box
+            let checkAllUserChecked = $('input.chk_select_user:checked').length == $('input.chk_select_user').length;            
+            $('input.chk_select_all_user').prop('checked', checkAllUserChecked);
+
+            if($('input.chk_select_user:checked').length >= 1){
+                $('a.btn-delete-multiple-users').removeClass('d-none');
+                $('div.dropdown-set-users-status-container').removeClass('d-none');
+            }
+            else{
+                $('a.btn-delete-multiple-users').addClass('d-none');
+                $('div.dropdown-set-users-status-container').addClass('d-none');
+            }
+
+        }).on('show.bs.modal','#modalDeleteMultipleUsersConfirm', function(){
+            let modal = $('#modalDeleteMultipleUsersConfirm');
+            // check input from check box table
+            $('input.chk_select_user').map((_i,_e) => {
+                let _checked = $(_e).prop('checked');
+                let _val = $(_e).val();
+                $('form.form-delete-multiple-users input[name="user[]"][value="' + _val + '"]').prop('checked', _checked);
+            });
+
+            // set text append modal body
+            $(this).find('form.form-delete-multiple-users input[name="user[]"]:checked').map((_i, _e) => {
+                let _textAppend = $(_e).data('modal-body-text-append');
+                $(modal).find('.modal-body').append(_textAppend + '<br>');
+            });
+
+            // get csrf tokend
+            handle.getCsrfToken((_token) => {
+                $('form.form-delete-multiple-users input[type="hidden"][name="_token"]').val(_token);
+            });
         });
     },
     loanAgreement: function() {
-        try {
-            handle.setDatePicker('.date-picker');
-        } catch (error) {
-            console.log(error);
-        }
         $(document).on('change', 'input.loan_money, input.percent_of_interest', function() {
             let _loanMoney = $('input.loan_money').val();
             let _percentOfInterest = $('input.percent_of_interest').val();
@@ -93,9 +126,15 @@ $(function() {
     init.tooltip();
 
     handle.user();
-    handle.loanAgreement();
-    handle.setFormatNumber(null, function(_curSelector, _number, _currency) {
-        $(_curSelector).text(_currency);
-    });
-    handle.setDataTable();
+    try {
+        handle.setDatePicker('.date-picker');
+    } catch (error) {
+        console.log('error');
+    }
+
+    //handle.loanAgreement();
+    //handle.setFormatNumber(null, function(_curSelector, _number, _currency) {
+    //    $(_curSelector).text(_currency);
+    //});
+    //handle.setDataTable();
 });
