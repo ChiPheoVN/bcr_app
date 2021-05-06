@@ -7,9 +7,15 @@
             @csrf
             @method('PUT')
             <div class="form-row">
+                <div class="form-group col">
+                    <label class="input__label">Full name</label>
+                    <input name="full_name" type="text" class="form-control" placeholder="Full name"  value="{{ $user->full_name }}">
+                </div>
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label class="input__label">Tên</label>
-                    <input type="text" class="form-control" placeholder="Tên"  value="{{ $user->name }}" readonly>
+                    <label class="input__label">Username</label>
+                    <input type="text" class="form-control" placeholder="Username" value="{{ $user->user_name }}" readonly>
                 </div>
                 <div class="form-group col-md-6">
                     <label class="input__label">Email</label>

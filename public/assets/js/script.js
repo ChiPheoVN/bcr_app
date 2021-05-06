@@ -26,6 +26,15 @@ var handle = {
             $('input.chk_select_user').map((_i,_e) => {
                 $(_e).prop('checked', checked);                
             });
+            
+            if($('input.chk_select_user:checked').length >= 1){
+                $('a.btn-delete-multiple-users').removeClass('d-none');
+                $('div.dropdown-set-users-status-container').removeClass('d-none');
+            }
+            else{
+                $('a.btn-delete-multiple-users').addClass('d-none');
+                $('div.dropdown-set-users-status-container').addClass('d-none');
+            }
         }).on('click','input.chk_select_user', function(){            
             // set check all check box
             let checkAllUserChecked = $('input.chk_select_user:checked').length == $('input.chk_select_user').length;            
@@ -39,7 +48,6 @@ var handle = {
                 $('a.btn-delete-multiple-users').addClass('d-none');
                 $('div.dropdown-set-users-status-container').addClass('d-none');
             }
-
         }).on('show.bs.modal','#modalDeleteMultipleUsersConfirm', function(){
             let modal = $('#modalDeleteMultipleUsersConfirm');
             // check input from check box table

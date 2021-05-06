@@ -106,10 +106,13 @@ class UserController extends Controller
         $status = $request->input('status');
         $type  = $request->input('type');
         $expiration_date = $request->input('expiration_date');
+        $fullName = $request->input('full_name');
 
         if($status) $user->status = $status;
         if($type) $user->type = $type;
         if($expiration_date) $user->expiration_date_from_input_tag = $expiration_date;
+
+        $user->full_name = $fullName;
 
         $user->save();
 
