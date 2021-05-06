@@ -1,5 +1,7 @@
 var bacaratConfig = {
-    removeTieResultInProcedure : true
+    removeTieResultInProcedure : true,
+    autoCreateRandomGameResult : true,
+    numberOfRandomGameResult : 15
 }
 var allowProcedures = [
     'procedure1',
@@ -59,7 +61,7 @@ var bacaratInit = {
             let tr = $('<tr>');
             for (let col = 0; col < cols; col ++) {
                 let td = $('<td>',{
-                    'data-phase' : row*cols + col
+                    'data-phase' : col*rows + row
                 });
                 tr.append(td);
             }
@@ -68,7 +70,7 @@ var bacaratInit = {
         }
     },
     createRandomWinnerLog : () => {
-        let numberPhase = 15;
+        let numberPhase = bacaratConfig.numberOfRandomGameResult;
         let cardNumber = [1,2,3,4,5,6,7,8,9,10,'j','q','k', null];
         for (let index = 0; index < numberPhase; index++) {
             let pObject = {
@@ -519,7 +521,9 @@ $(function() {
     // init setup
     bacaratInit.setupSetCard();
     bacaratInit.initTableScoreBoard();
-    bacaratInit.createRandomWinnerLog();
+    
+    if(bacaratConfig.autoCreateRandomGameResult)
+        bacaratInit.createRandomWinnerLog();
 
     // handle
     bacaratHandle.bacarat();
